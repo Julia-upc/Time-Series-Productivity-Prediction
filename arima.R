@@ -1,13 +1,15 @@
+library(caret)
+library(dplyr)
+library(TSstudio)
 setwd("~/Escritorio/Time Series Data Mining/Productivity-Prediction-of-Garment-Employees-Data-Set")
 
 # https://cran.r-project.org/web/packages/TSstudio/readme/README.html
+# https://www.r-bloggers.com/2021/04/handling-missing-values-in-r/  
 
 # Read data
 data<- read.csv("data/garments_worker_productivity.csv")
 
 # Preprocessing
-library(caret)
-
 data <-
   transform(
     data,
@@ -38,7 +40,6 @@ data2 <- data.frame(predict(dmy, newdata = data))
 data2$date <- date
 data$date <- date
 
-library(dplyr)
 data$index <- c(1:dim(data)[1])
 data2$index <- c(1:dim(data2)[1])
 df = merge(x = data, y = data2, by = "index")
@@ -57,7 +58,6 @@ df2$time <- c(1:dim(df2)[1])
 df2 <- df2[-c(12)]
 ts2 <- as.ts(df2$actual_productivity)
 
-library(TSstudio)
 ts_plot(ts1, 
         title = "Finishing department team 1",
         Ytitle = "Actual productivity")
@@ -67,10 +67,6 @@ ts_plot(ts2,
         Ytitle = "Actual productivity")
 
 ########################## IMPLEMENTING ARIMA #################################
-
-# Correlation analysis ??
-ts_cor(ts1, lag.max = 60) # seasonal lag 1
-
 
 # Buscar primero parametros p,d,q con autoarima. Luego hacer fit y coeftest 
 # para ver que variables del dataset son significativas. Finalmente haces un 

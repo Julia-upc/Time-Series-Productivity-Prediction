@@ -21,11 +21,13 @@ ts2 <- as.ts(df2$actual_productivity)
 
 ts_plot(ts1, 
         title = "Finishing department team 1",
-        Ytitle = "Actual productivity")
+        Ytitle = "Actual productivity",
+        Xtitle = "Time")
 
 ts_plot(ts2, 
         title = "Sweing department team 1",
-        Ytitle = "Actual productivity")
+        Ytitle = "Actual productivity",
+        Xtitle = "Time")
 
 ########################## IMPLEMENTING ARIMA #################################
 

@@ -5,6 +5,7 @@ library(tidyr)
 library(lmtest)
 library(caret)
 library(TSstudio)
+library("ggplot2")
 
 setwd("~/Escritorio/Time Series Data Mining/Productivity-Prediction-of-Garment-Employees-Data-Set")
 
@@ -38,7 +39,7 @@ data <- data[-c(3,5)]
 ggplot(data,                            
        aes(x = as.numeric(date),
            y = actual_productivity,
-           col = D_T)) + geom_line()
+           col = D_T)) + geom_line() + labs(y ="Actual Productivity", x ="Time")
 
 dmy <- dummyVars(" ~ .", data = data[3])
 date<- as.Date(as.character(data$date),
@@ -65,4 +66,18 @@ df <- transform(df,  month = as.numeric(month),
 dmy <- dummyVars(" ~ .", data = df)
 df_nn <- data.frame(predict(dmy, newdata = df))
 
-save(df_nn,file="data_cnn.Rda")
+# min max scaling
+library(gradDescent)
+
+df_nn <- df_nn[-42] #year column is constant, we can remove it
+df_nn_scaled <- minmaxScaling(df_nn[c(1, 3:10, 42,43 )])
+
+df_nn_scaled <- df_nn_scaled$scaledDataSet
+df_nn_noscaled <- df_nn[-c(1, 3:10, 42,43 )]
+
+df_nn_scaled$index <- c(1:dim(df_nn_scaled)[1])
+df_nn_noscaled$index <- c(1:dim(df_nn_noscaled)[1])
+dff = merge(x = df_nn_scaled, y = df_nn_noscaled, by = "index")
+dff <- dff[-1]
+
+save(dff,file="data_cnn.Rda")

@@ -8,20 +8,20 @@ library(MLmetrics)
 
 load(file='data/data_cnn.Rda')
 
-indexes = createDataPartition(df_nn$actual_productivity, p = .85, list = F)
-train = df_nn[indexes,]
-test = df_nn[-indexes,]
+indexes = createDataPartition(dff$actual_productivity, p = .85, list = F)
+train = dff[indexes,]
+test = dff[-indexes,]
 
-xtrain = as.matrix(train[,-11])
-ytrain = as.matrix(train[,11])
-xtest = as.matrix(test[,-11])
-ytest = as.matrix(test[, 11])
+xtrain = as.matrix(train[,-13])
+ytrain = as.matrix(train[,13])
+xtest = as.matrix(test[,-13])
+ytest = as.matrix(test[, 13])
 
 dim(xtrain)
 dim(ytrain)
 
-xtrain = array(xtrain, dim = c(nrow(xtrain), 43, 1))
-xtest = array(xtest, dim = c(nrow(xtest), 43, 1))
+xtrain = array(xtrain, dim = c(nrow(xtrain), 42, 1))
+xtest = array(xtest, dim = c(nrow(xtest), 42, 1))
 
 dim(xtrain)
 dim(xtest)

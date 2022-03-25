@@ -53,7 +53,7 @@ data2$index <- c(1:dim(data2)[1])
 df = merge(x = data, y = data2, by = "index")
 df<-df[-c(1,2,4)]
 
-save(df, file ="data_arima.Rda")
+save(df, file ="data/data_arima.Rda")
 
 ########## Preprocessing CNN ###############
 df <- df %>% separate(date.y,
@@ -80,4 +80,4 @@ df_nn_noscaled$index <- c(1:dim(df_nn_noscaled)[1])
 dff = merge(x = df_nn_scaled, y = df_nn_noscaled, by = "index")
 dff <- dff[-1]
 
-save(dff,file="data_cnn.Rda")
+save(dff,file="data/data_cnn.Rda")

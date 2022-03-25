@@ -25,7 +25,7 @@ ts_plot(ts1,
         Xtitle = "Time")
 
 ts_plot(ts2, 
-        title = "Sweing department team 1",
+        title = "Sewing department team 1",
         Ytitle = "Actual productivity",
         Xtitle = "Time")
 
@@ -40,51 +40,47 @@ ts_plot(ts2,
 
 # Setting training and testing partitions
 
-df1_s <- ts_split(ts.obj = as.ts(df1), sample.out = 5)
+df1_s <- ts_split(ts.obj = as.ts(df1), sample.out = 10)
 train_1 <- df1_s$train
 test_1 <- df1_s$test
 
-df2_s <- ts_split(ts.obj = as.ts(df2), sample.out = 5)
+df2_s <- ts_split(ts.obj = as.ts(df2), sample.out = 10)
 train_2 <- df2_s$train
 test_2 <- df2_s$test
 
 # TS_2
+
 md <- auto.arima(train_2[,11], xreg=train_2[,-c(6,7,8,9,11,12,13,14,15,16,17)])
 coeftest(md)
 md <- auto.arima(train_2[,11], xreg=train_2[,c(2,3,10)])
 coeftest(md)
 
-fc <- forecast(md, xreg=train_2[,c(2,3,10)], h = 5)
-
+fc <- forecast(md, xreg=train_2[,c(2,3,10)], h = 12)
+# sewing
 summary(fc)
 
 plot(fc)
 lines(test_2[,11],col="red")
-lines(fc$fitted, col= "blue")
+lines(fc$fitted, col= "chartreuse3")
 # analysis of the residuals
-plot(fc$residuals)
-hist(fc$residuals)
+plot(fc$residuals, xlab = "Time",ylab ="Residuals" )
+hist(fc$residuals, ylab = "Frequency",xlab ="Residuals")
 Acf(md$residuals) 
 Pacf(md$residuals)
 
 
 # TS_1
-md <- auto.arima(train_1[,11], xreg=train_1[,c(2)])
+md <- auto.arima(train_1[,11], xreg=train_1[,c(2,3,10)])
 coeftest(md)
-fc <- forecast(md, xreg=train_1[,c(2)], h = 5)
-
+fc <- forecast(md, xreg=train_1[,c(2,3,10)], h = 12)
+# finishing
 summary(fc)
 
 plot(fc)
 lines(test_1[,11],col="red")
-lines(fc$fitted, col= "blue")
+lines(fc$fitted, col= "chartreuse3")
 # analysis of the residuals
-plot(fc$residuals)
-hist(fc$residuals)
+plot(fc$residuals, xlab = "Time",ylab ="Residuals" )
+hist(fc$residuals, ylab = "Frequency",xlab ="Residuals")
 Acf(md$residuals) 
 Pacf(md$residuals)
-
-
-
-
-

@@ -6,23 +6,7 @@ library(MLmetrics)
 
 # https://www.datatechnotes.com/2020/01/how-to-fit-regression-data-with-cnn.html 
 
-# set.seed(123)
-# 
-# boston = MASS::Boston
-# indexes = createDataPartition(boston$medv, p = .85, list = F)
-# train = boston[indexes,]
-# test = boston[-indexes,]
-
-
-df <- df %>% separate(date.y,
-                                c("year", "month","day"),
-                                "-")
-df <- transform(df,  month = as.numeric(month), 
-                     day = as.numeric(day),
-                     year = as.numeric(year))
-
-dmy <- dummyVars(" ~ .", data = df)
-df_nn <- data.frame(predict(dmy, newdata = df))
+load(file='data/data_cnn.Rda')
 
 indexes = createDataPartition(df_nn$actual_productivity, p = .85, list = F)
 train = df_nn[indexes,]

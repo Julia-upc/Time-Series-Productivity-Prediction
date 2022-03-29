@@ -4,6 +4,7 @@ library(TSstudio)
 library(mice)
 library(forecast)
 
+setwd("~/Escritorio/Time Series Data Mining/Productivity-Prediction-of-Garment-Employees-Data-Set")
 load(file="data/data_arima.Rda")
 
 # Split the DF into 24 based on the variable D_T
@@ -28,6 +29,8 @@ ts_plot(ts2,
         title = "Sewing department team 1",
         Ytitle = "Actual productivity",
         Xtitle = "Time")
+Acf(ts2,  title = "Finishing department team 1")
+Pacf(ts2,  title = "Finishing department team 1")
 
 ########################## IMPLEMENTING ARIMA #################################
 
@@ -68,6 +71,7 @@ hist(fc$residuals, ylab = "Frequency",xlab ="Residuals")
 Acf(md$residuals) 
 Pacf(md$residuals)
 
+plot(lm(fc$residuals~fc$fitted))
 
 # TS_1
 md <- auto.arima(train_1[,11], xreg=train_1[,c(2,3,10)])
@@ -84,3 +88,4 @@ plot(fc$residuals, xlab = "Time",ylab ="Residuals" )
 hist(fc$residuals, ylab = "Frequency",xlab ="Residuals")
 Acf(md$residuals) 
 Pacf(md$residuals)
+plot(lm(fc$residuals~fc$fitted))
